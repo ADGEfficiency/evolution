@@ -8,14 +8,14 @@ class Problem:
         print(repr(self))
 
     def __repr__(self):
-        return '{} - f(x)={} x={}'.format(self.name, self.optimal, self.optimal_coord)
+        return "{} - f(x)={} x={}".format(self.name, self.optimal, self.optimal_coord)
 
     def get_best(self, obj):
         return np.min(obj)
 
 
 class Sphere(Problem):
-    name = 'sphere'
+    name = "sphere"
     optimal_coord = (0, 0)
     optimal = 0
 
@@ -30,7 +30,7 @@ class Sphere(Problem):
 
 
 class Schwefel(Problem):
-    name = 'schwefel'
+    name = "schwefel"
     optimal_coord = (420.96874636, 420.96874636)
     optimal = 0
 
@@ -46,7 +46,7 @@ class Schwefel(Problem):
 
 
 class H1(Problem):
-    name = 'h1'
+    name = "h1"
     optimal_coord = (8.6998, 6.7665)
     optimal = 2
     dims = 2
@@ -63,7 +63,7 @@ class H1(Problem):
 
 
 class Rastrigin(Problem):
-    name = 'rastrigin'
+    name = "rastrigin"
     optimal_coord = (0, 0)
     optimal = 0
 

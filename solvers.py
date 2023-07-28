@@ -10,46 +10,35 @@ def get_best_samples(samples, fitness, num=1):
 
 
 class SimpleSolver:
-    def __init__(
-            self,
-            problem,
-            num_parameters,
-            population_size,
-            initial_mean=0
-    ):
+    def __init__(self, problem, num_parameters, population_size, initial_mean=0):
         self.prob = problem
         self.num_parameters = num_parameters
         self.population_size = population_size
 
-        if initial_mean == 'random':
+        if initial_mean == "random":
             initial_mean = np.random.randint(*self.prob.lims, size=2)
 
-        self.mean = np.full(
-            num_parameters,
-            initial_mean
-        ).reshape(1, self.num_parameters)
+        self.mean = np.full(num_parameters, initial_mean).reshape(
+            1, self.num_parameters
+        )
 
         self.cov = np.identity(self.num_parameters) * self.prob.lims[1] * 0.02
         assert self.mean.shape[1] == self.cov.shape[0]
 
     def __repr__(self):
-        return 'simple-solver'
+        return "simple-solver"
 
     def ask(self):
         self.samples = multivariate_normal(
             self.mean.reshape(self.num_parameters),
             self.cov,
             size=self.population_size,
-            check_valid='raise'
+            check_valid="raise",
         )
         return self.samples
 
     def tell(self, samples, fitness):
-        self.mean, _ = get_best_samples(
-            self.samples,
-            fitness,
-            num=1
-        )
+        self.mean, _ = get_best_samples(self.samples, fitness, num=1)
 
 
 class CMAES:
@@ -58,24 +47,22 @@ class CMAES:
         problem,
         num_parameters,
         population_size=64,
-        initial_mean='random',
-        sigma=0.5
+        initial_mean="random",
+        sigma=0.5,
     ):
         self.num_parameters = num_parameters
 
-        if initial_mean == 'random':
+        if initial_mean == "random":
             initial_mean = np.random.randint(*problem.lims, size=num_parameters)
         else:
             initial_mean = np.full(num_parameters, initial_mean)
 
         self.solver = cma.CMAEvolutionStrategy(
-            initial_mean,
-            sigma,
-            {'popsize': population_size}
+            initial_mean, sigma, {"popsize": population_size}
         )
 
     def __repr__(self):
-        return 'pycma'
+        return "pycma"
 
     def ask(self):
         samples = self.solver.ask()
